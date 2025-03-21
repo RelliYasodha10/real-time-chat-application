@@ -1,0 +1,137 @@
+/* General Styles */
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+/* Login Page */
+.login-container {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 15px;
+    border-radius: 12px;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 300px;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.login-container input {
+    width: 90%;
+    padding: 8px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 5px;
+}
+
+.login-container button {
+    background: #ff5f6d;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.login-container button:hover {
+    background: #ff9966;
+}
+
+/* Chat Page */
+.chat-container {
+    display: flex;
+    width: 50%;
+    height: 25vh; /* Reduced to 1/4 of the total page height */
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+    animation: slideUp 0.5s ease-in-out;
+    justify-content: center;
+    align-items: center;
+}
+
+.sidebar {
+    width: 20%;
+    background: #4a4a4a;
+    color: white;
+    padding: 15px;
+}
+
+.sidebar h3 {
+    margin-bottom: 10px;
+}
+
+.chat-box {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+}
+
+.messages {
+    flex-grow: 1;
+    padding: 15px;
+    overflow-y: auto;
+    background: #f4f4f4;
+    font-size: 14px;
+}
+
+.message {
+    background: #007bff;
+    color: white;
+    padding: 8px;
+    border-radius: 15px 15px 5px 15px;
+    margin-bottom: 8px;
+    max-width: 65%;
+    position: relative;
+    animation: popIn 0.3s ease-out;
+}
+
+.input-area {
+    display: flex;
+    padding: 8px;
+    background: #ddd;
+}
+
+.input-area input {
+    flex-grow: 1;
+    padding: 8px;
+    border: none;
+    border-radius: 5px;
+}
+
+.input-area button {
+    background: #007bff;
+    color: white;
+    padding: 8px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.input-area button:hover {
+    background: #0056b3;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes popIn {
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}

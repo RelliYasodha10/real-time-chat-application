@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Room</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: rgb(20, 111, 111);
+    margin: 0;
+}
+
+#welcome-message {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+#chat-box {
+    width: 50%;
+    height: 50vh;  /* Reduced height to 1/4th of the page */
+    border-radius: 10px; /* Rounded corners */
+    border: 2px solid #ccc;
+    overflow-y: auto;
+    padding: 15px;
+    background:black;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.message {
+    padding: 8px 12px;
+    margin: 5px 0;
+    border-radius: 8px;
+    max-width: 80%;
+    word-wrap: break-word;
+}
+
+.sent {
+    align-self: flex-end;
+    background: #0a8e29;
+    color: white;
+    text-align: right;
+}
+
+.received {
+    align-self: flex-start;
+    background: rgb(87, 87, 186);
+    color: white;
+    text-align: left;
+}
+
+input {
+    width: 50%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-top: 10px;
+}
+
+button {
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    background: #007bff;
+    color: white;
+    cursor: pointer;
+    margin-left: 5px;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #0056b3;
+}
+
+    </style>
+</head>
+<body>
+    <h2 id="welcome-message"></h2>
+    <div id="chat-box"></div>
+    <input type="text" id="message-input" placeholder="Type a message..."><br>
+    <button id="send-button">Send</button>
+
+    <script>
+        const socket = io();
+        const chatBox = document.getElementById("chat-box");
+        const messageInput = document.getElementById("message-input");
+        const sendButton = document.getElementById("send-button");
+
+        // Get username from localStorage
+        const username = localStorage.getItem("username");
+        if (!username) {
+            window.location.href = "login.html"; // Redirect if no username
+        } else {
+            document.getElementById("welcome-message").innerText = `Welcome, ${username}!`;
+        }
+
+        function appendMessage(message, type) {
+            const messageDiv = document.createElement("div");
+            messageDiv.classList.add("message", type);
+            messageDiv.innerHTML = message;
+            chatBox.appendChild(messageDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        sendButton.addEventListener("click", () => {
+            const message = messageInput.value.trim();
+            if (message !== "") {
+                const chatMessage = { user: username, text: message };
+                appendMessage(`You: ${message}`, "sent");
+                socket.emit("chat message", chatMessage);
+                messageInput.value = "";
+            }
+        });
+
+        socket.on("chat message", (data) => {
+            if (data.user !== username) {
+                appendMessage(`${data.user}: ${data.text}`, "received");
+            }
+        });
+    </script>
+</body>
+</html>
+
